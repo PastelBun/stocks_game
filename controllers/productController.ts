@@ -1,9 +1,8 @@
-import { Request, Response, Router } from "express";
+import { Request, Response } from "express";
 import Product from "../models/product";
 
-const router: Router=Router();
 
-router.post('/product', async (req: Request, res: Response) => {
+const createProduct=async (req: Request, res: Response) => {
     const data = new Product({
         name: req.body.name,
         amount: req.body.amount,
@@ -17,8 +16,8 @@ router.post('/product', async (req: Request, res: Response) => {
     catch (error) {
         res.status(400).json({message: error})
     }
-});
-router.delete('/product/:id', async (req: Request, res: Response)=>{
+};
+const deleteProduct=async (req: Request, res: Response)=>{
   try{
       const id=req.params.id;
       await Product.findByIdAndDelete(id);
@@ -28,8 +27,8 @@ router.delete('/product/:id', async (req: Request, res: Response)=>{
   catch (error){
       res.status(500).json({ message: error })
   }
-})
-router.put('/product/:id', async (req: Request, res: Response)=>{
+}
+const updateProduct=async (req: Request, res: Response)=>{
     try{
         const id=req.params.id;
         const updatedData=req.body;
@@ -44,5 +43,19 @@ router.put('/product/:id', async (req: Request, res: Response)=>{
     catch (error){
         res.status(500).json({ message:error })
     }
-})
-export default router;
+};
+const getAllProducts=async (req:Request, res:Response)=>{
+    try {
+        const result = await Product.find();
+        res.send(result);
+    }
+    catch (error) {
+        res.status(500).json({ message:error })
+    }
+}
+export default {
+    createProduct,
+    deleteProduct,
+    updateProduct,
+    getAllProducts
+}
