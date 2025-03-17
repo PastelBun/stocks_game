@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import Portfolio from "../models/portfolio";
-import Product from "../models/product"; // Ensure this model is imported
+import Product from "../models/product";
 
 const buyProduct = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -10,25 +10,25 @@ const buyProduct = async (req: Request, res: Response): Promise<void> => {
             return;
         }
 
-        const existingPortfolioItem = await Portfolio.findOne({ product: req.params.id });
-
-        if (!existingPortfolioItem) {
-            const data = new Portfolio({
+        let existingPortfolioItem = await Portfolio.findOne({ product: req.params.id });
+        if (existingPortfolioItem) {
+            existingPortfolioItem.amount += req.body.amount;
+            const updatedPortfolio = await existingPortfolioItem.save();
+            res.status(200).json(updatedPortfolio);
+        } else {
+            const newPortfolioItem = new Portfolio({
                 amount: req.body.amount,
                 product: req.params.id
             });
 
-            const dataToSave = await data.save();
-            res.status(201).json(dataToSave);
-        } else {
-            existingPortfolioItem.amount += req.body.amount;
-            const updatedPortfolio = await existingPortfolioItem.save();
-            res.status(200).json(updatedPortfolio);
+            const savedPortfolioItem = await newPortfolioItem.save();
+            res.status(201).json(savedPortfolioItem);
         }
     } catch (error) {
         res.status(500).json({ message: "Server error", error });
     }
 };
+
 
 const sellProduct = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -52,5 +52,6 @@ const sellProduct = async (req: Request, res: Response): Promise<void> => {
         res.status(500).json({ message: "Server error", error });
     }
 };
+
 
 export default { buyProduct, sellProduct };
