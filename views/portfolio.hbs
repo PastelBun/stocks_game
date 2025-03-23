@@ -1,0 +1,21 @@
+<h1>My Portfolio</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Stock</th>
+            <th>Amount Owned</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each portfolio}}
+        <tr>
+            <td>{{this.product.name}}</td>
+            <td>{{this.amount}}</td>
+            <td>
+                <a href="/sell/{{this._id}}">Sell</a>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

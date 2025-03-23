@@ -1,0 +1,24 @@
+<h1>Available Stocks</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each products}}
+        <tr>
+            <td>{{this.name}}</td>
+            <td>{{this.amount}}</td>
+            <td>${{this.price}}</td>
+            <td>
+                <a href="/buy/{{this._id}}">Buy</a> | 
+                <a href="/sell/{{this._id}}">Sell</a>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
