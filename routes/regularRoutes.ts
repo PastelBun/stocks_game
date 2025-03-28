@@ -3,7 +3,8 @@ import portfolioController from "../controllers/portfolioController";
 import Product from "../models/product";
 import Portfolio from "../models/portfolio";
 import Chart from "../models/chart";
-
+import LossGain from "../models/lossgain";
+import lossGainController from "../controllers/lossGainController";
 const router: Router = Router();
 
 // Buying and selling routes
@@ -39,5 +40,7 @@ router.get("/charts", async (req, res) => {
         res.status(500).send("Error loading charts");
     }
 });
+router.get("/loss-gain", lossGainController.getLossGainRecords);
+router.get("/loss-gain/:id", lossGainController.getLossGainByProduct);
 
 export default router;

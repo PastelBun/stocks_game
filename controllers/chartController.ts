@@ -21,7 +21,7 @@ const addToChart=async (req: Request, res: Response)=>{
         res.status(400).json({message: error})
     }
 }
-
+setInterval(addToChart,3000);
 export default {
 addToChart
 };
