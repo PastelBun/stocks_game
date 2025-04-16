@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Price Chart</title>
+    <link rel="stylesheet" type="text/css" href="../public/style/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Product Price Chart</h1>
+
+    <!-- Canvas for rendering the chart -->
+    <canvas id="priceChart" width="400" height="200"></canvas>
+
+    <script>
+        // Parse the chartData passed from the backend (Handlebars)
+        const chartData = {{{chartData}}};  // Injected from the controller
+
+        // Extract timestamps and prices from the chart data
+        const timestamps = chartData.map(item => new Date(item.timestamp).toLocaleString());  // Format timestamps
+        const prices = chartData.map(item => item.price);  // Extract prices for the chart
+
+        // Get the chart canvas element
+        const ctx = document.getElementById('priceChart').getContext('2d');
+
+        // Create the chart using Chart.js
+        const priceChart = new Chart(ctx, {
+            type: 'line',  // Line chart for price over time
+            data: {
+                labels: timestamps,  // X-axis labels (timestamps)
+                datasets: [{
+                    label: 'Product Price',
+                    data: prices,  // Y-axis data (prices)
+                    fill: false,
+                    borderColor: 'rgba(75, 192, 192, 1)',  // Line color
+                    tension: 0.1  // Smooth curve
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        type: 'category',  // Display timestamps on the x-axis
+                        title: {
+                            display: true,
+                            text: 'Time'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Price'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

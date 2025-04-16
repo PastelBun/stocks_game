@@ -1,28 +1,46 @@
+
+{{#each products}}
+    <tr>
+        <td>{{this.name}}</td>
+        <td>{{this.amount}}</td>
+        <td>${{this.price}}</td>
+        <td>
+            <a href="/buy/{{this._id}}">Buy</a> | 
+            <a href="/sell/{{this._id}}">Sell</a>
+        </td>
+    </tr>
+    {{{body}}}
+{{/each}}
+
+<!--
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio</title>
+    <title>Stocks</title>
     <link rel="stylesheet" type="text/css" href="../public/style/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <h1>My Portfolio</h1>
+    <h1>Available Stocks</h1>
     <table>
         <thead>
             <tr>
-                <th>Stock</th>
-                <th>Amount Owned</th>
+                <th>Name</th>
+                <th>Amount</th>
+                <th>Price</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            {{#each portfolio}}
+            {{#each products}}
             <tr>
-                <td>{{this.product.name}}</td>
+                <td>{{this.name}}</td>
                 <td>{{this.amount}}</td>
+                <td>${{this.price}}</td>
                 <td>
+                    <a href="/buy/{{this._id}}">Buy</a> | 
                     <a href="/sell/{{this._id}}">Sell</a>
                 </td>
             </tr>
@@ -30,4 +48,4 @@
         </tbody>
     </table>
 </body>
-
+-->

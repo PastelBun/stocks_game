@@ -6,7 +6,7 @@ const buyProduct = async (req: Request, res: Response): Promise<void> => {
     try {
         const product = await Product.findById(req.params.id);
         if (!product) {
-            res.status(404).json({ message: "Product not found" });
+            res.status(404).send({ message: "Product not found" });
             return;
         }
 
@@ -14,7 +14,7 @@ const buyProduct = async (req: Request, res: Response): Promise<void> => {
         if (existingPortfolioItem) {
             existingPortfolioItem.amount += req.body.amount;
             const updatedPortfolio = await existingPortfolioItem.save();
-            res.status(200).json(updatedPortfolio);
+            res.render("portfolio",{updatedPortfolio});
         } else {
             const newPortfolioItem = new Portfolio({
                 amount: req.body.amount,
@@ -22,10 +22,10 @@ const buyProduct = async (req: Request, res: Response): Promise<void> => {
             });
 
             const savedPortfolioItem = await newPortfolioItem.save();
-            res.status(201).json(savedPortfolioItem);
+            res.render("portfolio",{savedPortfolioItem});
         }
     } catch (error) {
-        res.status(500).json({ message: "Server error", error });
+        res.status(500).send({ message: "Server error", error });
     }
 };
 
@@ -34,7 +34,7 @@ const sellProduct = async (req: Request, res: Response): Promise<void> => {
     try {
         const portfolioItem = await Portfolio.findById(req.params.id);
         if (!portfolioItem) {
-            res.status(404).json({ message: "Portfolio item not found" });
+            res.status(404).send({ message: "Portfolio item not found" });
             return;
         }
 
@@ -42,11 +42,13 @@ const sellProduct = async (req: Request, res: Response): Promise<void> => {
 
         if (updatedAmount <= 0) {
             await Portfolio.findByIdAndDelete(req.params.id);
-            res.status(200).json({ message: "Product sold completely, removed from portfolio" });
+            const data = await Portfolio.find();
+            res.render("portfolio",{data, message: "Product sold completely, removed from portfolio" });
         } else {
             portfolioItem.amount = updatedAmount;
             const updatedPortfolio = await portfolioItem.save();
-            res.status(200).json(updatedPortfolio);
+            const data = await Portfolio.find();
+            res.render("portfolio",{data,message:"The product's stock has been sold"});
         }
     } catch (error) {
         res.status(500).json({ message: "Server error", error });

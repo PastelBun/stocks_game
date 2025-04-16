@@ -1,6 +1,8 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import path from "path";
+import hbs, {engine} from "express-handlebars";
 import adminRoutes from "./routes/adminRoutes";  // Correct import
 import regularRoutes from "./routes/regularRoutes";
 import automaticRoutes from "./routes/automaticRoutes";
@@ -23,6 +25,19 @@ mongoose.connect(url)
 const database = mongoose.connection;
 database.on("error", (error) => console.log("DB Error:", error));
 
+app.engine("hbs", engine({
+    extname: "hbs",
+    defaultLayout: false, // Disable default layout globally (we’ll render layout manually)
+}));
+app.set("view engine", "hbs");
+app.set("views", path.join(__dirname, "views"));
+
+// Route that directly renders main.hbs
+app.get("/", (req, res) => {
+    res.render("layout/main");
+});
+app.set("view engine", "hbs");
+app.use(express.static("public"));
 app.use("/admin", adminRoutes);
 app.use("/regular", regularRoutes);
 app.use("/automatic", automaticRoutes); //needs to actually be automated

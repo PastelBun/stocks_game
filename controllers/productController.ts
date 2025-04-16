@@ -11,10 +11,12 @@ const createProduct=async (req: Request, res: Response) => {
 
     try {
         const dataToSave = await data.save();
-        res.status(200).json(dataToSave)
+        //res.status(200).json(dataToSave)
+        res.render("product",{dataToSave});
     }
     catch (error) {
-        res.status(400).json({message: error})
+        //res.status(400).json({ message:error })
+        res.status(400).send({ message:error })
     }
 };
 const deleteProduct=async (req: Request, res: Response)=>{
@@ -23,9 +25,11 @@ const deleteProduct=async (req: Request, res: Response)=>{
       await Product.findByIdAndDelete(id);
       const data=await Product.find();
       res.send(data);
+      res.render("product",{data});
   }
   catch (error){
-      res.status(500).json({ message: error })
+      //res.status(500).json({ message:error })
+      res.status(500).send({ message:error })
   }
 }
 const updateProduct=async (req: Request, res: Response)=>{
@@ -39,18 +43,23 @@ const updateProduct=async (req: Request, res: Response)=>{
         );
 
         res.send(result);
+        const data = await Product.find();
+        res.render("product",{data});
     }
     catch (error){
-        res.status(500).json({ message:error })
+        //res.status(500).json({ message:error })
+        res.status(500).send({ message:error })
+
     }
 };
 const getAllProducts=async (req:Request, res:Response)=>{
     try {
         const result = await Product.find();
-        res.send(result);
+        res.render("product",{result});
     }
     catch (error) {
-        res.status(500).json({ message:error })
+        //res.status(500).json({ message:error })
+        res.status(500).send({ message:error })
     }
 }
 export default {
