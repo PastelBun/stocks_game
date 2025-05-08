@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Chart from "../models/chart";
 import Product from "../models/product";
-import LossGain from "../models/lossgain";
+
 
 const addToChart=async (req: Request, res: Response)=>{
     const product = await Product.findById(req.params.id);
@@ -11,6 +11,9 @@ const addToChart=async (req: Request, res: Response)=>{
     }
     const data = new Chart({
         product: req.body.id,
+        price: req.body.currentPrice,
+        
+
         timestamp: req.body.date
     })
 
@@ -24,15 +27,17 @@ const addToChart=async (req: Request, res: Response)=>{
 }
 const getChartData = async (req: Request, res: Response) => {
     try {
-        const records = await LossGain.find()
+        const records = await Chart.find()
             .populate("product", "name price")
             .sort({ timestamp: 1 });  // Sort by timestamp to ensure chronological order
 
         // Map the records for charting (timestamps and price changes)
         const chartData = records.map(record => ({
-            timestamp: record.timestamp,
-            productName: (record.product as any)?.name,
-            price: record.currentPrice
+            id: record._id,
+            currentPrice: record.currentPrice,
+            previousPrice: record.previousPrice,
+            percentageChange: record.percentageChange,
+            timestamp: record.timestamp
         }));
 
         // Send the chart data to the front-end for rendering
@@ -45,10 +50,26 @@ const getChartData = async (req: Request, res: Response) => {
 const autoLogChartData = async () => {
     const products = await Product.find();
     for (const product of products) {
-        await new Chart({
-            product: product._id,
-            timestamp: new Date()
-        }).save();
+        const lastChart = await Chart.findOne({ product: product._id })
+        .sort({ timestamp: -1 }); // get the most recent chart entry
+
+        const previousPrice = lastChart ? lastChart.currentPrice : 0;
+        const currentPrice = product.price;
+        const percentageChange = previousPrice !== 0 && previousPrice !== null 
+        ? ((currentPrice - previousPrice) / previousPrice) * 100
+        : 0;
+
+        try {
+            await new Chart({
+                product: product._id,
+                currentPrice: product.price,
+                previousPrice: previousPrice,
+                percentageChange: percentageChange,
+                timestamp: new Date()
+            }).save();
+        } catch (error) {
+            console.error(`Error saving chart data for product ${product._id}:`, error);
+        }
     }
 };
 

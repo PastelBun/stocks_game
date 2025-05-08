@@ -1,4 +1,4 @@
-
+<!--
 {{#each products}}
     <tr>
         <td>{{this.name}}</td>
@@ -11,15 +11,15 @@
     </tr>
     {{{body}}}
 {{/each}}
+-->
 
-<!--
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stocks</title>
-    <link rel="stylesheet" type="text/css" href="../public/style/styles.css">
+    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -35,17 +35,17 @@
         </thead>
         <tbody>
             {{#each products}}
-            <tr>
-                <td>{{this.name}}</td>
-                <td>{{this.amount}}</td>
-                <td>${{this.price}}</td>
-                <td>
-                    <a href="/buy/{{this._id}}">Buy</a> | 
-                    <a href="/sell/{{this._id}}">Sell</a>
-                </td>
-            </tr>
+                <li>{{this}}</li>
+                <tr>
+                    <td>{{name}}</td>
+                    <td>{{amount}}</td>
+                    <td>${{price}}</td>
+                    <td>
+                        <a class="btn" href="/buy/{{_id}}">Buy</a> | 
+                        <a class="btn" href="/sell/{{_id}}">Sell</a>
+                    </td>
+                </tr>
             {{/each}}
         </tbody>
     </table>
 </body>
--->

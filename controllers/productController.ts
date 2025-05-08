@@ -12,7 +12,7 @@ const createProduct=async (req: Request, res: Response) => {
     try {
         const dataToSave = await data.save();
         //res.status(200).json(dataToSave)
-        res.render("product",{dataToSave});
+        res.render("products",{dataToSave});
     }
     catch (error) {
         //res.status(400).json({ message:error })
@@ -25,7 +25,7 @@ const deleteProduct=async (req: Request, res: Response)=>{
       await Product.findByIdAndDelete(id);
       const data=await Product.find();
       res.send(data);
-      res.render("product",{data});
+      res.render("products",{data});
   }
   catch (error){
       //res.status(500).json({ message:error })
@@ -44,7 +44,7 @@ const updateProduct=async (req: Request, res: Response)=>{
 
         res.send(result);
         const data = await Product.find();
-        res.render("product",{data});
+        res.render("products",{data});
     }
     catch (error){
         //res.status(500).json({ message:error })
@@ -54,8 +54,9 @@ const updateProduct=async (req: Request, res: Response)=>{
 };
 const getAllProducts=async (req:Request, res:Response)=>{
     try {
-        const result = await Product.find();
-        res.render("product",{result});
+        const result = await Product.find({}).lean(); ;
+        console.log(result);
+        res.render("products",{result});
     }
     catch (error) {
         //res.status(500).json({ message:error })
