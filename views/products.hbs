@@ -25,27 +25,26 @@
 <body>
     <h1>Available Stocks</h1>
     <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Amount</th>
-                <th>Price</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each products}}
-                <li>{{this}}</li>
-                <tr>
-                    <td>{{name}}</td>
-                    <td>{{amount}}</td>
-                    <td>${{price}}</td>
-                    <td>
-                        <a class="btn" href="/buy/{{_id}}">Buy</a> | 
-                        <a class="btn" href="/sell/{{_id}}">Sell</a>
-                    </td>
-                </tr>
-            {{/each}}
-        </tbody>
+    <thead>
+        <tr>
+        <th>Name</th>
+        <th>Amount</th>
+        <th>Price</th>
+        <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each products}}
+        <tr>
+            <td>{{name}}</td>
+            <td>{{amount}}</td>
+            <td>${{price}}</td>
+            <td>
+            <a class="btn" href="/buy/{{_id}}">Buy</a> |
+            <a class="btn" href="/sell/{{_id}}">Sell</a>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
     </table>
 </body>

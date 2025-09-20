@@ -1,24 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Stocks Portfolio Game</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="/style/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" href="/favicon.png">
+  <title>Stocks Portfolio Game</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/style/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="/favicon.png">
 </head>
 <body>
-    <header>
-        <a href="/">Homepage</a>
-        <a href="/regular/products">Products</a>
-        <a href="/regular/portfolio">Portfolio</a>
-        <a href="/regular/charts">Charts</a>
-        <hr>
-    </header>
+  <header>
+    <a href="/">Homepage</a>
+    <a href="/regular/products">Products</a>
+    <a href="/regular/portfolio">Portfolio</a>
+    <a href="/regular/charts">Charts</a>
+    {{#if user}}
+      <a href="/auth/logout">Logout</a>
+    {{else}}
+      <a href="/auth/login">Login</a>
+      <a href="/auth/register">Register</a>
+    {{/if}}
+    <hr>
+  </header>
 
-    <main>
-        {{{body}}}
-    </main>
+  <main>
+    {{{body}}}
+  </main>
 </body>
 </html>

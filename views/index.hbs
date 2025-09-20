@@ -1,24 +1,12 @@
-
 <h1>Homepage</h1>
-<div class="login"></div>
-    {{#if user}}
-        <p>Welcome, {{user.username}}!</p>
-        <br>
-        <a href="/user/logout">Logout</a>
-    {{else}}
-        <a href="/user/login">Login</a>
-        <br>
-        <a href="/user/register">Register</a>
-    {{/if}}
-    <a href="/regular/products">Products</a>
-    <a href="/regular/portfolio">Portfolio</a>
-    <a href="/regular/charts">Charts</a>
 
+<div class="login">
+  {{#if user}}
+    <p>Welcome, {{user.username}}!</p>
+    <a href="/auth/logout">Logout</a>
+  {{else}}
+    <a href="/auth/login">Login</a><br>
+    <a href="/auth/register">Register</a>
+  {{/if}}
 </div>
-</div>
-    {{#products}}
-        <article>
-            <a href="/regular/products{{slug}}">
-        </article> 
-    {{/articles}} 
-</div>
+

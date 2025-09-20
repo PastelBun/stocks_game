@@ -54,14 +54,15 @@ const updateProduct=async (req: Request, res: Response)=>{
 };
 const getAllProducts=async (req:Request, res:Response)=>{
     try {
-        const result = await Product.find({}).lean(); ;
-        console.log(result);
-        res.render("products",{result});
-    }
-    catch (error) {
-        //res.status(500).json({ message:error })
-        res.status(500).send({ message:error })
-    }
+    let products = await Product.find({}).lean();
+
+    // Ensure `_id` is a string for URLs
+    products = products.map(p => ({ ...p, _id: p._id.toString() }));
+
+    res.render("products", { products });
+  } catch (error) {
+    res.status(500).send({ message: error });
+  }
 }
 export default {
     createProduct,
