@@ -13,17 +13,21 @@
         <thead>
             <tr>
                 <th>Stock</th>
-                <th>Amount Owned</th>
+                <th>Owned</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             {{#each portfolio}}
             <tr>
-                <td>{{this.product.name}}</td>
+                <td>{{product.name}}</td>
                 <td>{{this.amount}}</td>
                 <td>
-                    <a href="/sell/{{this._id}}">Sell</a>
+                    <form action="/regular/sell/{{this._id}}" method="post">
+                        <button type="submit">Sell</button>
+                        <label for="sellAmount">Amount to sell:</label>
+                        <input type="number" id="sellAmount" name="sellAmount" placeholder="0" min="1" required>
+                    </form>
                 </td>
             </tr>
             {{/each}}

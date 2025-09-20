@@ -1,13 +1,9 @@
-import mongoose, { Schema, Document } from "mongoose";
+// models/portfolio.ts
+import mongoose from 'mongoose';
 
-interface IPortfolio extends Document {
-    amount: number;
-    product: mongoose.Types.ObjectId;
-}
-
-const PortfolioSchema = new Schema<IPortfolio>({
-    amount: { type: Number, required: true },
-    product: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true }
+const portfolioSchema = new mongoose.Schema({
+    portfolioAmount: { type: Number, required: true },
+    product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true }
 });
 
-export default mongoose.model<IPortfolio>("Portfolio", PortfolioSchema);
+export default mongoose.model("Portfolio", portfolioSchema);

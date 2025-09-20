@@ -26,8 +26,14 @@ const database = mongoose.connection;
 database.on("error", (error) => console.log("DB Error:", error));
 
 app.engine("hbs", engine({
-    extname: "hbs",
-    defaultLayout: false, // Disable default layout globally (we’ll render layout manually)
+    extname: 'hbs',
+    defaultLayout: 'main',
+    layoutsDir: path.join(__dirname, 'views/layout/'),
+    runtimeOptions:
+        {
+            allowProtoMethodsByDefault: true,
+            allowProtoPropertiesByDefault: true
+        }
 }));
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
@@ -36,7 +42,8 @@ app.set("views", path.join(__dirname, "views"));
 app.get("/", (req, res) => {
     res.render("layout/main");
 });
-app.set("view engine", "hbs");
+app.use(express.urlencoded({ extended: true }));
+
 app.use(express.static("public"));
 app.use("/admin", adminRoutes);
 app.use("/regular", regularRoutes);

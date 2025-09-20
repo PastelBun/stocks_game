@@ -1,0 +1,18 @@
+[
+    {
+      "name": "Apple Inc.",
+      "amount": 500,
+      "price": 175.50
+      
+    },
+    {
+      "name": "Tesla Motors",
+      "amount": 300,
+      "price": 850.25
+    },
+    {
+      "name": "Amazon",
+      "amount": 250,
+      "price": 3100.75
+    }
+]
